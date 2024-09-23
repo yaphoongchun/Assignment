@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" >
+	
+
+	<siteMapNode url="~/index.aspx" title="Home" description="Index Page">
+
+		<siteMapNode url="~/Admin/admin.aspx" title="Admin Page"  description="Admin Dashboard">
+			<siteMapNode url="~/Admin/adminProfile.aspx" title="Profile"  description="Admin Profile Page" />
+			<siteMapNode url="~/Admin/userManage.aspx" title="User Manage"  description="User Manage Page" />
+			<siteMapNode url="~/Admin/report.aspx" title="Report"  description="Report Page" />
+		</siteMapNode>
+
+		<siteMapNode url="~/Baker/bakerDashboard.aspx" title="Baker Page"  description="Baker Dashboard">
+			<siteMapNode url="~/Baker/bakerProfile.aspx" title="Profile"  description="Baker Profile Page" />
+			<siteMapNode url="~/Baker/EditProduct.aspx" title="Edit"  description="Edit Product Page" />
+			<siteMapNode url="~/Baker/addCake.aspx" title="Add Cake"  description="Add Cake Page" />
+			<siteMapNode url="~/Baker/bakerProductManage.aspx" title="Product Manage"  description="Product Manage Page" />
+			<siteMapNode url="~/Baker/bakerOrders.aspx" title="bakerOrders"  description="Product Manage Page" />
+			<siteMapNode url="~/Baker/bakerReport.aspx" title="bakerReport"  description="Baker Report Page" />
+		</siteMapNode>
+
+		<siteMapNode url="~/Customer/customerProfileHistory.aspx" title="User Page"  description="Customer Proile">
+			<siteMapNode url="~/Customer/customerOrderHistory.aspx" title="Order History"  description="Order History Page" />
+			<siteMapNode url="~/Customer/cart.aspx" title="Order Cart"  description="Cart Page" />
+			<siteMapNode url="~/Customer/checkout.aspx" title="Check Out"  description="Checkout Page" />
+			<siteMapNode url="~/Customer/Payment2.aspx" title="Payment"  description="Payment Page" />
+			<siteMapNode url="~/Customer/shop.aspx" title="shop"  description="Shop" />
+			<siteMapNode url="~/Customer/menuCustomer.aspx" title="productDetail"  description="productDetail" />
+			<siteMapNode url="~/Customer/customerAboutUs.aspx" title="About Us"  description="About Us" />
+			<siteMapNode url="~/Customer/customerOurTeam.aspx" title="Our Team"  description="Our Team" />
+			<siteMapNode url="~/Customer/customerPortfolio.aspx" title="Portfolio"  description="Portfolio" />
+			<siteMapNode url="~/Customer/customerCommingSoon.aspx" title="Comming Soon"  description="Comming Soon" />
+			<siteMapNode url="~/Customer/customerTestimonials.aspx" title="Testimonials"  description="Testimonials" />
+			<siteMapNode url="~/Customer/customerService.aspx" title="Service"  description="Service" />
+			<siteMapNode url="~/Customer/customerFaq.aspx" title="Faq"  description="Faq" />
+			<siteMapNode url="~/Customer/customerWhatWeMake.aspx" title="Whatwemake"  description="Whatwemake" />
+			<siteMapNode url="~/Customer/customerSpecial.aspx" title="Special"  description="Special" />
+			<siteMapNode url="~/Customer/customerBlog.aspx" title="Blog"  description="Blog" />
+			<siteMapNode url="~/Customer/customerContact.aspx" title="Contact"  description="Contact" />
+
+		</siteMapNode>
+
+		<siteMapNode url="about-us.aspx" title="About us"  description="About us Page" />
+		<siteMapNode url="blog.aspx" title="blog"  description="blog Page" />
+		<siteMapNode url="comming-soon.aspx" title="comming-soon"  description="comming-soon Page" />
+		<siteMapNode url="contact.aspx" title="Contact"  description="Contact Page" />
+		<siteMapNode url="login.aspx" title="Login"  description="Login Page" />
+		<siteMapNode url="faq.aspx" title="faq"  description="faq Page" />
+		<siteMapNode url="forgotPassword.aspx" title="forgotPassword"  description="forgotPassword Page" />
+		<siteMapNode url="menu.aspx" title="menu"  description="menu Page" />
+		<siteMapNode url="our-team.aspx" title="our-team"  description="our-team" />
+		<siteMapNode url="portfolio.aspx" title="portfolio"  description="portfolio Page" />
+		<siteMapNode url="register.aspx" title="register"  description="register Page" />
+		<siteMapNode url="resetPassword.aspx" title="resetPassword"  description="resetPassword Page" />
+		<siteMapNode url="service.aspx" title="service"  description="service Page" />
+		<siteMapNode url="signUpBaker.aspx" title="signUpBaker"  description="signUpBaker Page" />
+		<siteMapNode url="special.aspx" title="special"  description="special Page" />
+		<siteMapNode url="testimonials.aspx" title="testimonials"  description="testimonials Page" />
+		<siteMapNode url="what-we-make.aspx" title="what-we-make"  description="what-we-make Page" />
+		<siteMapNode url="404.aspx" title="404"  description="404 Page" />
+
+
+	</siteMapNode>
+
+
+
+
+</siteMap>
