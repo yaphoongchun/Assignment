@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Document Approval - Blockchain Demo</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/fileLock.css" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <style>
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            border-radius: 0.3rem;
+            outline: 0;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.2rem;
+        }
+        .form-search input {
+            border-radius: 0.2rem;
+        }
+	.table {
+        width: 100%; /* Ensures the table uses the full width of its container */
+        border-collapse: collapse; /* Collapses borders for cleaner look */
+    }
+    .table-responsive {
+        width: 105%; /* Ensures the table uses the full width of its container */
+        overflow-x: auto; /* Adds horizontal scroll if needed */
+    }
+
+    .table th, .table td {
+        text-align: left; /* Aligns text to the left */
+        padding: 0.5rem; /* Reduces padding for better fit */
+        font-size: 0.83rem; /* Reduces font size */
+        white-space: normal; /* Allows text to wrap */
+        word-wrap: break-word; /* Breaks long words to fit within the cell */
+    }
+    </style>
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="home.php" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="home.html">Home<br></a></li>
+                    <li><a href="about.html">About</a></li>
+					<li class="dropdown"><a href="#"><span>Blockchain</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="assignadmin.html">Assign Admin</a></li>
+                            <li><a href="adminpage.html">Approve transaction</a></li>
+							<li><a href="approveTransactionAdmin.html">Approve transaction List</a></li>                       
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+            <a class="btn-getstarted" href="signIn.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg" data-aos="fade-in">
+            <div class="container">
+                <div class="row gy-4 d-flex justify-content-between">
+                    <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h2>Document Approval</h2>
+                        <p>Manage document approvals securely with blockchain technology.</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Content Section -->
+        <section id="file-list" class="file-list section">
+            <div class="container">
+			  <h2 class="mb-4">Document Approval</h2>
+                <div class="row gy-4">
+                    <!-- Document Table -->
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Document ID</th>
+                                        <th>IPFS Hash</th>
+                                        <th>Unlock Time</th>
+                                        <th>Recipients</th>
+                                        <th>Status</th>
+                                        <th>Approved By</th>
+										<th>Rejected By</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="document-table-body">
+                                    <!-- Dynamic Rows Will Be Inserted Here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Content Section -->
+
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">BlockChain</span>
+                    </a>
+                    <p>BlockChain.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+        
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+        
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p>#</p>
+                    <p>#</p>
+                    <p>#</p>
+                    <p class="mt-4"><strong>Phone:</strong> <span>#</span></p>
+                    <p><strong>Email:</strong> <span>#@example.com</span></p>
+                </div>
+        
+            </div>
+        </div>
+        
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">BlockChain</strong> <span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="#">BlockChain</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script>
+        async function loadWeb3() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Web3 loaded and accounts accessed');
+                } catch (error) {
+                    console.error('User denied account access or error:', error);
+                }
+            } else {
+                console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+        }
+
+        async function loadContract() {
+            try {
+                const response = await fetch('/contracts/TimeVault.json');
+                const TimeVaultArtifact = await response.json();
+                const networkId = await web3.eth.net.getId();
+                const deployedNetwork = TimeVaultArtifact.networks[networkId];
+                window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+                console.log('Contract loaded:', window.contract);
+            } catch (error) {
+                console.error('Failed to load contract', error);
+            }
+        }
+
+        async function load() {
+            await loadWeb3();
+            await loadContract();
+            await listDocuments();
+        }
+
+        async function listDocuments() {
+    try {
+        const documentCount = await window.contract.methods.getDocumentCount().call();
+        const tableBody = document.getElementById('document-table-body');
+        tableBody.innerHTML = ''; // Clear the table
+
+        for (let i = 1; i <= documentCount; i++) {
+            const document = await window.contract.methods.getDocument(i).call();
+            const approvers = await getApprovers(i);
+            const rejector = await window.contract.methods.getDocumentRejector(i).call();
+
+            const unlockTime = Number(document.unlockTime); // Convert BigInt to Number
+            const status = parseInt(document.status); // Convert status to integer
+            let statusText = "Unknown";
+
+            if (status === 0) {
+                statusText = "Queued";
+            } else if (status === 1) {
+                statusText = "Locked";
+            } else if (status === 2) {
+                statusText = "Unlocked";
+            } else if (status === 3) {
+                statusText = "Cancelled";
+            }
+
+            const row = `
+                <tr>
+                    <td>${i}</td>
+                    <td>${document.ipfsHash}</td>
+                    <td>${new Date(unlockTime * 1000).toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' })}</td>
+                    <td>${document.recipients.join(', ')}</td>
+                    <td>${statusText}</td>
+                    <td>${approvers.join(', ')}</td>
+                    <td>${rejector}</td> <!-- New column for rejector -->
+                </tr>
+            `;
+
+            tableBody.innerHTML += row;
+        }
+    } catch (error) {
+        console.error('Error listing documents:', error);
+    }
+}
+
+
+async function getDocumentRejector(documentId) {
+    try {
+        const rejector = await window.contract.methods.getDocumentRejector(documentId).call();
+        return rejector;
+    } catch (error) {
+        console.error('Error fetching document rejector:', error);
+        return 'Error';
+    }
+}
+
+
+        async function getApprovers(documentId) {
+            const adminCount = await window.contract.methods.getAdminCount().call();
+            const approvers = [];
+
+            for (let i = 0; i < adminCount; i++) {
+                const admin = await window.contract.methods.getAdminByIndex(i).call();
+                const hasApproved = await window.contract.methods.approvals(documentId, admin).call();
+                if (hasApproved) {
+                    approvers.push(admin);
+                }
+            }
+            return approvers;
+        }
+
+        window.onload = function () {
+            load();
+        };
+    </script>
+</body>
+
+</html>

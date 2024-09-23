@@ -1,0 +1,25 @@
+Installation Guide 
+
+1)
+Unzip The File 
+
+2)
+Open Ganache 
+
+3)
+open the cmd in the directory of this file 
+
+4)
+Use this command to deploy the contract 
+"truffle migrate --network development "
+
+6)
+Using ganache provided key to open a new account or import all the account 
+
+5)
+start the program 
+"npm start"
+
+6)
+After start go to 
+http://localhost:5000/home.html

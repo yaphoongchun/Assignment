@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Blockchain Demo - Sign Up</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+    <style>
+        .signup-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-size: cover;
+        }
+
+        .signup-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 400px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .signup-form:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .signup-form h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            text-align: center;
+            color: #333;
+        }
+
+        .signup-btn {
+            width: 100%;
+            border-radius: 4px;
+            padding: 0.75rem;
+            background-color: #f6851b;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signup-btn:hover {
+            background-color: #e3730b;
+            transform: translateY(-3px);
+        }
+
+        .signup-btn i {
+            margin-right: 10px;
+        }
+
+        .signup-form .alert {
+            margin-top: 1rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+            <a href="home.php" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+        
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="home.html" class="active">Home<br></a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+        
+            <a class="btn-getstarted" href="signIn.html">Sign In</a>
+        </div>
+    </header>
+
+    <main class="main">
+
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <!-- Fix the image path -->
+            <img src="assets/img/world-dotted-map.png" alt="World Dotted Map" class="hero-bg" >
+            <div class="container">
+                <div class="signup-container">
+                    <div class="signup-form">
+                        <h2>Register with MetaMask</h2>
+                        
+                        <!-- Error message -->
+                        <div id="error-message" class="alert alert-danger d-none" role="alert">
+                            Please correct the highlighted fields and try again.
+                        </div>
+
+                        <!-- Connect with MetaMask Button -->
+                        <button class="signup-btn" id="signup-btn">
+                            <i class="fab fa-ethereum"></i> Sign Up with MetaMask
+                        </button>
+
+                        <div class="signup-options">                         
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">BlockChain</span>
+                    </a>
+                    <p>BlockChain.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+        
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+        
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p>#</p>
+                    <p>#</p>
+                    <p>#</p>
+                    <p class="mt-4"><strong>Phone:</strong> <span>#</span></p>
+                    <p><strong>Email:</strong> <span>#@example.com</span></p>
+                </div>
+        
+            </div>
+        </div>
+        
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">BlockChain</strong> <span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="#">BlockChain</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- MetaMask Integration -->
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+
+    <script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+
+<script>
+    async function loadWeb3() {
+        if (window.ethereum) {
+            window.web3 = new Web3(window.ethereum);
+            try {
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                console.log('Web3 loaded and accounts accessed');
+                return true;
+            } catch (error) {
+                console.error('User denied account access or error:', error);
+                document.getElementById('error-message').classList.remove('d-none');
+                document.getElementById('error-message').innerText = 'MetaMask access denied or error occurred.';
+                return false;
+            }
+        } else {
+            console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            document.getElementById('error-message').classList.remove('d-none');
+            document.getElementById('error-message').innerText = 'MetaMask is not installed. Please install MetaMask.';
+            return false;
+        }
+    }
+
+    async function loadContract() {
+        try {
+            const response = await fetch('/contracts/TimeVault.json'); // Path to your contract's JSON file
+            const TimeVaultArtifact = await response.json();
+            const networkId = await web3.eth.net.getId(); // Get the network ID
+            const deployedNetwork = TimeVaultArtifact.networks[networkId]; // Fetch deployed network details
+            if (!deployedNetwork) {
+                throw new Error('Smart contract not deployed on this network');
+            }
+            window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+            console.log('Contract loaded:', window.contract);
+        } catch (error) {
+            console.error('Failed to load contract', error);
+        }
+    }
+
+    async function load() {
+        const isWeb3Loaded = await loadWeb3();
+        if (!isWeb3Loaded) return;
+        await loadContract();
+        const accounts = await web3.eth.getAccounts();
+        window.account = accounts[0];
+        console.log('Connected account:', window.account);
+    }
+
+    async function signInWithMetaMask() {
+        await load(); // Ensure Web3 and the contract are loaded first
+
+        try {
+            if (!window.account) {
+                document.getElementById('error-message').classList.remove('d-none');
+                document.getElementById('error-message').innerText = 'Please connect to MetaMask.';
+                return;
+            }
+
+            const userAddress = window.account;
+            console.log("Connected account:", userAddress);
+
+            // Store user address for sign-in, e.g., POST to your backend
+            const response = await fetch('/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ walletAddress: userAddress })
+            });
+
+            const contentType = response.headers.get('content-type');
+
+            if (contentType && contentType.includes('application/json')) {
+                const data = await response.json();
+                if (data.success) {
+                    // Check if the user is an admin using the contract
+                    const isAdmin = await checkAdminStatus(userAddress);
+                    if (isAdmin) {
+                        window.location.href = 'assignadmin.html'; // Redirect to admin page if admin
+                    } else {
+                        window.location.href = 'home2.html'; // Redirect to user page otherwise
+                    }
+                } else {
+                    document.getElementById('error-message').classList.remove('d-none');
+                    document.getElementById('error-message').innerText = 'Sign In failed. Please try again.';
+                }
+            } else {
+                // Handle unexpected response types
+                console.error('Unexpected response type:', contentType);
+                document.getElementById('error-message').classList.remove('d-none');
+                document.getElementById('error-message').innerText = 'Unexpected response from server.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            document.getElementById('error-message').classList.remove('d-none');
+            document.getElementById('error-message').innerText = 'An error occurred. Please try again.';
+        }
+    }
+
+    // Function to check if a user is an admin
+    async function checkAdminStatus(userAddress) {
+        try {
+            const isAdmin = await window.contract.methods.isAdmin(userAddress).call(); // Use the loaded contract
+            return isAdmin;
+        } catch (error) {
+            console.error('Error checking admin status:', error);
+            return false;
+        }
+    }
+
+    document.getElementById('signup-btn').addEventListener('click', signInWithMetaMask);
+</script>
+
+
+    </script>
+
+</body>
+
+</html>

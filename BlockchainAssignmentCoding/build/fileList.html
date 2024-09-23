@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>File List - Blockchain Demo</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/fileLock.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.1/web3.min.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            border-radius: 0.3rem;
+            outline: 0;
+        }
+        .modal-body {
+            padding: 2rem;
+        }
+        .btn-sm {
+            font-size: 0.875rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.2rem;
+        }
+        .form-search input {
+            border-radius: 0.2rem;
+        }
+		.account-info {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff; /* White color to match the design */
+    margin-right:50px 
+}
+
+#current-account {
+    font-weight: normal;
+    color: #00ff00; /* Green color to make it stand out */
+	margin-left:20px;
+}
+		
+    </style>
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="home2.html" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+                 <ul>
+                    <li><a href="home2.html" class="active">Home<br></a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown"><a href="#"><span>Blockchain</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="transaction.html">Transaction</a></li>
+                            <li class="dropdown"><a href="#"><span>Documents</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <ul>
+                                    <li><a href="fileList.html" class="active">File List</a></li>
+                                    <li><a href="fielLocker.html">File Locker</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+			<a id="current-account" class="btn-account" href="#">Account: </a>
+            <a class="btn-getstarted" href="signIn.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg" >
+            <div class="container">
+                <div class="row gy-4 d-flex justify-content-between">
+                    <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h2 >History File List</h2>
+                        <p data-aos-delay="100">See Back What Are The File Your Uploaded.</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Content Section -->
+        <section id="file-list" class="file-list section">
+            <div class="container">
+                <div class="row gy-4">
+                    <!-- Search Bar and Upload Button -->
+                    <div class="col-12 mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Search Bar -->
+                            <form action="#" method="GET" class="form-search d-flex align-items-center">
+                                <input type="text" class="form-control" placeholder="Search files...">
+                                <button type="submit" class="btn btn-primary ms-2">Search</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- File Table -->
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>File Name</th>
+                                        <th>IPFS Hash</th>
+                                        <th>Recipient</th>
+                                        <th>Unlock Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="file-table-body">
+                                    <!-- File rows will be dynamically populated -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Content Section -->
+
+        <!-- View File Modal -->
+        <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="viewModalLabel">View File</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="file-iframe" src="" style="width: 100%; height: 60vh;" frameborder="0"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">BlockChain</span>
+                    </a>
+                    <p>BlockChain.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <script src="assets/js/main.js"></script>
+
+    <!-- File List Script -->
+    <script>
+    // Load Web3 and contract interaction
+    let account;
+    let contract;
+
+    const loadWeb3 = async () => {
+      if (window.ethereum) {
+    window.web3 = new Web3(window.ethereum);
+    try {
+      await window.ethereum.enable(); // Request account access
+      const accounts = await web3.eth.getAccounts(); // Get current account
+      if (accounts.length > 0) {
+        document.getElementById('current-account').textContent = `Account: ${accounts[0]}`; // Set the account address in the top-right corner
+      }
+    } catch (error) {
+      console.error("User denied account access");
+    }
+  } else if (window.web3) {
+    window.web3 = new Web3(window.web3.currentProvider);
+  } else {
+    alert("Non-Ethereum browser detected. Please consider using MetaMask.");
+  }
+}
+	
+	   
+
+    const loadContract = async () => {
+        const response = await fetch('/contracts/TimeVault.json');
+        const contractData = await response.json();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = contractData.networks[networkId];
+        contract = new web3.eth.Contract(contractData.abi, deployedNetwork && deployedNetwork.address);
+    };
+
+    const load = async () => {
+        await loadWeb3();
+        await loadContract();
+        fetchFileList();
+    };
+
+   const fetchFileList = async () => {
+    try {
+        // Ensure web3 is loaded and contract is available
+        const accounts = await web3.eth.getAccounts();
+        const userAddress = accounts[0];
+
+        // Fetch document IDs for the logged-in user
+        let documentIds = await contract.methods.getUserDocuments(userAddress).call();
+
+        // Filter out duplicate document IDs
+        documentIds = documentIds.filter((documentId, index, self) => 
+            index === self.findIndex(t => t === documentId)
+        );
+
+        const fileListElement = document.getElementById("file-table-body");  // Correct ID
+
+        // Clear any previous content
+        fileListElement.innerHTML = '';
+
+        for (let i = 0; i < documentIds.length; i++) {
+            const documentId = documentIds[i];
+
+            // Fetch document details by ID
+            const document = await contract.methods.getDocument(documentId).call();
+
+            // Destructure the document object
+            const { ipfsHash, unlockTime, recipients, status, name } = document;
+
+            // Convert status enum to a readable format
+            const statusText = getStatusText(status);
+
+            // Create HTML content for each document
+            const row = `
+                <tr>
+                    <td>${i + 1}</td> <!-- Index number -->
+                    <td>${name}</td>
+                    <td>${ipfsHash}</td>
+                    <td>${recipients.join(', ')}</td>
+                    <td>${formatDate(unlockTime)}</td>
+                    <td>${statusText}</td>                      
+                </tr>
+            `;
+
+            // Append each row to the file table body
+            fileListElement.innerHTML += row;
+        }
+    } catch (error) {
+        console.error("Error fetching documents:", error);
+    }
+};
+
+    // Helper function to convert status enum to a readable text
+    const getStatusText = (status) => {
+        switch (parseInt(status)) {
+            case 0: return 'Queued';
+            case 1: return 'Locked';
+            case 2: return 'Unlocked';
+            case 3: return 'Cancelled';
+            default: return 'Unknown';
+        }
+    };
+
+    // Helper function to format the unlock time as a readable date
+    const formatDate = (timestamp) => {
+        const date = new Date(parseInt(timestamp) * 1000);
+        return date.toLocaleString();
+    };
+
+
+    // Initialize everything on page load
+    window.onload = load;
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en"> 
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Blockchain Demo</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+   <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/fileLock.css" rel="stylesheet">
+    <!-- Additional CSS for Table -->
+    <style>
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+        }
+
+        .modal-body {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+		
+
+
+			.account-info {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff; /* White color to match the design */
+    margin-right:50px 
+}
+
+#current-account {
+    font-weight: normal;
+    color: #00ff00; /* Green color to make it stand out */
+	margin-left:20px;
+}
+    </style>
+
+</head>
+
+<body class="index-page">
+
+     <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="home2.html" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+                 <ul>
+                    <li><a href="home2.html" class="active">Home<br></a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown"><a href="#"><span>Blockchain</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="transaction.html">Transaction</a></li>
+                            <li class="dropdown"><a href="#"><span>Documents</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <ul>
+                                    <li><a href="fileList.html" class="active">File List</a></li>
+                                    <li><a href="fielLocker.html">File Locker</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+			<a id="current-account" class="btn-account" href="#">Account: </a>
+            <a class="btn-getstarted" href="signIn.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg" data-aos="fade-in">
+            <div class="container">
+                <div class="row gy-4 d-flex justify-content-between">
+                    <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h2 >View Transactions</h2>
+                        <p >Existing Transactions</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Content Section -->
+        <section id="featured-services" class="featured-services section">
+            <div class="container">
+                <div class="row gy-4">
+                    <!-- Cards for Metrics -->
+                    <div class="col-md-3">
+                        <div class="card border-primary mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Daily Transactions</h5>
+                                <p class="card-text" id="daily-transactions">1,234</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-warning mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Pending Transactions</h5>
+                                <p class="card-text" id="pending-transactions">56</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-success mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Network Transaction Fee</h5>
+                                <p class="card-text" id="network-fee">0.005 BTC</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-danger mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Gas Fee</h5>
+                                <p class="card-text" id="gas-fee">0.01 ETH</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table Search and Download Section -->
+                    <div class="col-12 mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <!-- Search Bar -->
+                            <form action="#" method="GET" class="form-search d-flex align-items-center">
+                                <input type="text" class="form-control" id="search" placeholder="Search transactions...">
+                                <button type="submit" class="btn btn-primary ms-2">Search</button>
+                            </form>
+                            <!-- Download Button -->
+                            <button class="btn btn-secondary" id="download-btn">Download Data</button>
+                        </div>
+                    </div>
+
+                    <!-- Transaction Table -->
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="transactionTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Owner</th>
+                                        <th>Recipient</th>
+                                        <th>Document ID</th>
+										<th>Document Name</th>
+										<th>Status Change Time</th>
+                                        <th>Unlock Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- This should be filled dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="col-12 mt-4">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Content Section -->
+
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <div class="container footer-top">
+            <div class="row gy-4">
+                <div class="col-lg-5 col-md-12 footer-about">
+                    <a href="index.html" class="logo d-flex align-items-center">
+                        <span class="sitename">BlockChain</span>
+                    </a>
+                    <p>BlockChain.</p>
+                    <div class="social-links d-flex mt-4">
+                        <a href=""><i class="bi bi-twitter-x"></i></a>
+                        <a href=""><i class="bi bi-facebook"></i></a>
+                        <a href=""><i class="bi bi-instagram"></i></a>
+                        <a href=""><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About us</a></li>
+                        <li><a href="#">Terms of service</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+                    <h4>Contact Us</h4>
+                    <p>#</p>
+                    <p>#</p>
+                    <p>#</p>
+                    <p class="mt-4"><strong>Phone:</strong> <span>#</span></p>
+                    <p><strong>Email:</strong> <span>#@example.com</span></p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container copyright text-center mt-4">
+            <p>© <span>Copyright</span> <strong class="px-1 sitename">BlockChain</strong> <span>All Rights Reserved</span></p>
+            <div class="credits">
+                Designed by <a href="#">BlockChain</a>
+            </div>
+        </div>
+
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+
+    <!-- Additional JS for Export and Search -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.6.0/dist/web3.min.js"></script>
+    <script>
+        window.onload = async function() {
+            // Load Web3 and connect wallet
+                       async function loadWeb3() {
+  if (window.ethereum) {
+    window.web3 = new Web3(window.ethereum);
+    try {
+      await window.ethereum.enable(); // Request account access
+      const accounts = await web3.eth.getAccounts(); // Get current account
+      if (accounts.length > 0) {
+        document.getElementById('current-account').textContent = `Account: ${accounts[0]}`; // Set the account address in the top-right corner
+      }
+    } catch (error) {
+      console.error("User denied account access");
+    }
+  } else if (window.web3) {
+    window.web3 = new Web3(window.web3.currentProvider);
+  } else {
+    alert("Non-Ethereum browser detected. Please consider using MetaMask.");
+  }
+}
+
+            // Load smart contract
+            async function loadContract() {
+                try {
+                    const response = await fetch('/contracts/TimeVault.json');
+                    const TimeVaultArtifact = await response.json();
+                    const networkId = await web3.eth.net.getId();
+                    const deployedNetwork = TimeVaultArtifact.networks[networkId];
+                    window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+                    console.log('Contract loaded:', window.contract);
+                } catch (error) {
+                    console.error('Failed to load contract', error);
+                }
+            }
+
+            // Load user documents
+          // Load user documents
+   async function loadUserDocuments() {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        const userAddress = accounts[0];
+        window.account = userAddress;
+
+        let documentIds = await window.contract.methods.getUserDocuments(userAddress).call();
+
+        // Filter out duplicate document IDs
+        documentIds = documentIds.filter((documentId, index, self) => 
+            index === self.findIndex(t => t === documentId)
+        );
+
+        const tableBody = document.querySelector('#transactionTable tbody');
+        tableBody.innerHTML = '';
+
+        if (documentIds.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="7">No documents found for this user.</td></tr>';
+            return;
+        }
+
+        for (let i = 0; i < documentIds.length; i++) {
+            try {
+                const documentId = documentIds[i];
+                const documentName = await window.contract.methods.getDocumentName(documentId).call(); // Fetch document name
+                const documentData = await window.contract.methods.getDocument(documentId).call();
+                const transactionTime = await window.contract.methods.getTransactionTime(documentId).call();
+                const statusChangeTime = await window.contract.methods.getStatusChangeTime(documentId).call();
+
+                // Convert raw values to integers
+                const unlockTimeInSeconds = parseInt(documentData[1], 10);
+                const transactionTimeInSeconds = parseInt(transactionTime, 10);
+                const statusChangeTimeInSeconds = parseInt(statusChangeTime, 10);
+
+                // Convert to Date objects
+                const formattedUnlockTime = new Date(unlockTimeInSeconds * 1000).toLocaleString();
+                const formattedTransactionTime = new Date(transactionTimeInSeconds * 1000).toLocaleString();
+                const formattedStatusChangeTime = new Date(statusChangeTimeInSeconds * 1000).toLocaleString();
+
+                // Create a new row for the document
+                const row = createTableRow({
+                    index: i + 1,
+                    owner: documentData[4], // Owner field
+                    recipients: documentData[2].join(', '), // Recipients
+                    documentId,
+                    documentName,
+                    formattedStatusChangeTime,
+                    formattedUnlockTime
+                });
+
+                tableBody.appendChild(row);
+            } catch (docError) {
+                console.error(`Error fetching document data for document ID ${documentIds[i]}:`, docError);
+            }
+        }
+    } catch (error) {
+        console.error('Error loading documents:', error);
+    }
+}
+
+// Helper function to create table row
+function createTableRow({ index, owner, recipients, documentId, documentName, formattedStatusChangeTime, formattedUnlockTime }) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${index}</td> <!-- Row number -->
+        <td>${owner}</td> <!-- Owner -->
+        <td>${recipients}</td> <!-- Recipients -->
+        <td>${documentId}</td> <!-- Document ID -->
+        <td>${documentName}</td> <!-- Document Name -->
+        <td>${formattedStatusChangeTime}</td> <!-- Status Change Time -->
+        <td>${formattedUnlockTime}</td> <!-- Unlock Time -->
+    `;
+    return row;
+}
+
+
+
+
+
+            // Initialize Web3, load contract, and load documents on page load
+            await loadWeb3();
+            await loadContract();
+            await loadUserDocuments();
+
+            // Search functionality
+            document.getElementById('search').addEventListener('input', function() {
+                const filter = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#transactionTable tbody tr');
+                rows.forEach(row => {
+                    const cells = row.getElementsByTagName('td');
+                    let match = false;
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].textContent.toLowerCase().includes(filter)) {
+                            match = true;
+                            break;
+                        }
+                    }
+                    row.style.display = match ? '' : 'none';
+                });
+            });
+
+            // Download table data as Excel file
+            document.getElementById('download-btn').addEventListener('click', function() {
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.table_to_sheet(document.getElementById('transactionTable'));
+                XLSX.utils.book_append_sheet(wb, ws, 'Transactions');
+                XLSX.writeFile(wb, 'transactions.xlsx');
+            });
+        };
+		
+		// Initialize web3 and set up event listeners
+window.addEventListener('load', async () => {
+    if (window.ethereum) {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        window.web3 = new Web3(window.ethereum);
+
+        // Fetch the current account and store it globally
+        const accounts = await web3.eth.getAccounts();
+        window.account = accounts[0];
+        
+        // Load user documents on page load
+        loadUserDocuments();
+
+        // Listen for account changes
+        window.ethereum.on('accountsChanged', (accounts) => {
+            console.log('Account changed to:', accounts[0]);
+            window.account = accounts[0];
+            loadUserDocuments(); // Reload documents for the new account
+        });
+    } else {
+        console.error('MetaMask is not installed!');
+    }
+});
+    </script>
+
+</body>
+
+</html>

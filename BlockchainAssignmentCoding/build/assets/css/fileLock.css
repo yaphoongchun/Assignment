@@ -1,0 +1,69 @@
+/* General Styles for Featured Services Section */
+.featured-services {
+    padding: 4rem 0;
+}
+
+.service-section {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.service-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    color: #333;
+}
+
+.service-section .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.service-section .form-group label {
+    display: block;
+    margin-bottom: .5rem;
+    font-weight: 500;
+}
+
+.service-section .form-group input {
+    width: 100%;
+    padding: .75rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.service-section .btn-submit {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: .75rem 1.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.service-section .btn-submit:hover {
+    background: #0056b3;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: .75rem;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.table th {
+    background-color: #f4f4f4;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}

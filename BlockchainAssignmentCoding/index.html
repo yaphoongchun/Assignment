@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeVault DApp with Pinata</title>
+    <!-- Load Web3.js -->
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <!-- Prevent favicon 404 error -->
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+<body>
+    <h1>TimeVault DApp</h1>
+
+    <!-- Lock Document Section -->
+    <div>
+        <h2>Lock Document</h2>
+        File: <input type="file" id="fileInput"><br>
+        Unlock Date and Time: <input type="datetime-local" id="unlockTime"><br>
+        Recipients (comma separated Ethereum addresses): <input type="text" id="recipients"><br>
+        <button onclick="lockDocument()">Lock Document</button>
+    </div>
+
+    <!-- Unlock Document Section -->
+    <div>
+        <h2>Unlock Document</h2>
+        Document ID: <input type="number" id="unlockDocumentId"><br>
+        <button onclick="unlockDocument()">Unlock Document</button>
+    </div>
+
+    <!-- Modify Time Lock Section -->
+    <div>
+        <h2>Modify Time Lock</h2>
+        Document ID: <input type="number" id="modifyDocumentId"><br>
+        New Unlock Date and Time: <input type="datetime-local" id="modifyUnlockTime"><br>
+        <button onclick="modifyTimeLock()">Modify Time Lock</button>
+    </div>
+
+    <!-- Update Recipients Section -->
+    <div>
+        <h2>Update Recipients</h2>
+        Document ID: <input type="number" id="updateRecipientsDocumentId"><br>
+        New Recipients (comma separated Ethereum addresses): <input type="text" id="newRecipients"><br>
+        <button onclick="updateRecipients()">Update Recipients</button>
+    </div>
+
+    <!-- Table for Locked Documents -->
+    <div>
+        <h2>Locked Documents</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Document ID</th>
+                    <th>IPFS Hash</th>
+                    <th>Unlock Time</th>
+                    <th>Recipients</th>
+                </tr>
+            </thead>
+            <tbody id="lockedDocumentsTable">
+                <!-- Filled dynamically with JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Display Area for Unlocked Document -->
+    <div id="documentDisplayArea">
+        <!-- The document will be displayed here after unlocking -->
+    </div>
+
+    <script>
+		const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MTk1ZmJkZC01ZTIwLTQ4MjItODc2OS01YmJhNjcxZGU0NGYiLCJlbWFpbCI6InlhcGhjLXdtMjFAc3R1ZGVudC50YXJjLmVkdS5teSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI4NTkyYzQwODY3Yjg0MDVmMGE2ZCIsInNjb3BlZEtleVNlY3JldCI6Ijk4NGFjNmNkZDI3MGFlMTgzYTdjYWEyNDlmMmJmNWFlYzFjOTBhMTgxMWYyMDI5YTUxOTY0MjE1YzQ0NzRjZDIiLCJpYXQiOjE3MjQ4NTEzMjR9.9iucArw2qTJuvwBogkARK13jy_Y-BfKW7m3nt6kMCxw';
+
+        async function uploadToPinata(file) {
+            const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${JWT}`
+                    },
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload file to IPFS',error.message);
+                }
+
+                const data = await response.json();
+                console.log('IPFS hash:', data.IpfsHash);
+                return data.IpfsHash;
+            } catch (error) {
+                console.error('Error during IPFS upload:', error);
+                return null;
+            }
+        }
+
+        async function loadWeb3() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    console.log('Web3 loaded and accounts accessed');
+                } catch (error) {
+                    console.error('User denied account access or error:', error);
+                }
+            } else {
+                console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+        }
+
+        async function loadContract() {
+            try {
+                const response = await fetch('/contracts/TimeVault.json');
+                const TimeVaultArtifact = await response.json();
+                const networkId = await web3.eth.net.getId();
+                const deployedNetwork = TimeVaultArtifact.networks[networkId];
+                window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+                console.log('Contract loaded:', window.contract);
+            } catch (error) {
+                console.error('Failed to load contract', error);
+            }
+        }
+
+        async function load() {
+            await loadWeb3();
+            await loadContract();
+            const accounts = await web3.eth.getAccounts();
+            window.account = accounts[0];
+            console.log('Connected account:', window.account);
+        }
+
+        function convertToEpoch(dateString) {
+            return Math.floor(new Date(dateString).getTime() / 1000);
+        }
+
+        async function lockDocument() {
+            try {
+                const file = document.getElementById('fileInput').files[0];
+                if (!file) {
+                    throw new Error('No file selected');
+                }
+
+                const ipfsHash = await uploadToPinata(file);
+                if (!ipfsHash) {
+                    throw new Error('Failed to upload file to IPFS');
+                }
+
+                const unlockDateTime = document.getElementById('unlockTime').value;
+                const unlockTime = convertToEpoch(unlockDateTime);
+                const recipients = document.getElementById('recipients').value.split(',').map(address => address.trim());
+
+                const receipt = await window.contract.methods.lockDocument(ipfsHash, unlockTime, recipients).send({ 
+                    from: window.account,
+                    gas: 3000000 // Adjust as needed
+                });
+
+                console.log('Document locked successfully.');
+                addDocumentToTable(receipt.events.DocumentLocked.returnValues.documentId, ipfsHash, unlockDateTime, recipients);
+            } catch (error) {
+                console.error('Error locking document:', error.message);
+                alert('Error locking document: ' + error.message);
+            }
+        }
+
+        function addDocumentToTable(documentId, ipfsHash, unlockTime, recipients) {
+            const table = document.getElementById('lockedDocumentsTable');
+            const row = table.insertRow();
+            row.insertCell(0).innerText = documentId;
+            row.insertCell(1).innerText = ipfsHash;
+            row.insertCell(2).innerText = unlockTime;
+            row.insertCell(3).innerText = recipients.join(', ');
+        }
+
+        async function unlockDocument() {
+            const documentId = document.getElementById('unlockDocumentId').value;
+
+            if (!documentId || isNaN(documentId)) {
+                alert('Please enter a valid document ID');
+                return;
+            }
+
+            try {
+                const documentDetails = await window.contract.methods.getDocument(documentId).call();
+                const unlockTime = documentDetails.unlockTime;
+                const currentTime = Math.floor(Date.now() / 1000);
+
+                if (currentTime < unlockTime) {
+                    alert('Document is still locked. Unlock time has not been reached.');
+                    return;
+                }
+
+                const receipt = await window.contract.methods.unlockDocument(documentId).send({ from: window.account });
+                const ipfsHash = documentDetails.ipfsHash;
+                const ipfsLink = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
+
+                const documentLink = document.createElement('a');
+                documentLink.href = ipfsLink;
+                documentLink.innerText = 'View/Download Document';
+                documentLink.target = '_blank';
+                document.getElementById('documentDisplayArea').innerHTML = '';
+                document.getElementById('documentDisplayArea').appendChild(documentLink);
+            } catch (error) {
+                console.error('Error unlocking document:', error);
+                alert('Error unlocking document: ' + error.message);
+            }
+        }
+
+        async function modifyTimeLock() {
+            const documentId = document.getElementById('modifyDocumentId').value;
+            const newUnlockDateTime = document.getElementById('modifyUnlockTime').value;
+            const newUnlockTime = convertToEpoch(newUnlockDateTime);
+
+            try {
+                await window.contract.methods.modifyTimeLock(documentId, newUnlockTime).send({ from: window.account });
+                console.log('TimeLock modified successfully.');
+                alert('TimeLock modified successfully.');
+            } catch (error) {
+                console.error('Error modifying TimeLock:', error);
+                alert('Error modifying TimeLock: ' + error.message);
+            }
+        }
+
+        async function updateRecipients() {
+            const documentId = document.getElementById('updateRecipientsDocumentId').value;
+            const newRecipients = document.getElementById('newRecipients').value.split(',').map(address => address.trim());
+
+            try {
+                await window.contract.methods.updateRecipients(documentId, newRecipients).send({ from: window.account });
+                console.log('Recipients updated successfully.');
+                alert('Recipients updated successfully.');
+            } catch (error) {
+                console.error('Error updating recipients:', error);
+                alert('Error updating recipients: ' + error.message);
+            }
+        }
+
+        window.onload = function() {
+            load();
+        };
+    </script>
+</body>
+</html>

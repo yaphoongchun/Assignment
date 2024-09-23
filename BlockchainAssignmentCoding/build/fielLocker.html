@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Blockchain Demo</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/fileLock.css" rel="stylesheet">
+	
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+	 <style>
+	 
+	
+        
+	.table {
+        width: 100%; /* Ensures the table uses the full width of its container */
+        border-collapse: collapse; /* Collapses borders for cleaner look */
+    }
+    .table-responsive {
+        width: 105%; /* Ensures the table uses the full width of its container */
+        overflow-x: auto; /* Adds horizontal scroll if needed */
+    }
+
+    .table th, .table td {
+        text-align: left; /* Aligns text to the left */
+        padding: 0.5rem; /* Reduces padding for better fit */
+        font-size: 0.79rem; /* Reduces font size */
+        white-space: normal; /* Allows text to wrap */
+        word-wrap: break-word; /* Breaks long words to fit within the cell */
+    }
+	
+			.account-info {
+    font-size: 10px;
+    font-weight: bold;
+    color: #ffffff; /* White color to match the design */
+    margin-right:50px 
+}
+
+#current-account {
+    font-weight: normal;
+    color: #00ff00; /* Green color to make it stand out */
+	margin-left:20px;
+}
+    </style>
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="home2.html" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+				<ul>
+                    <li><a href="home2.html" class="active">Home<br></a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li class="dropdown"><a href="#"><span>Blockchain</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="transaction.html">Transaction</a></li>
+                            <li class="dropdown"><a href="#"><span>Documents</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                                <ul>
+                                    <li><a href="fileList.html" class="active">File List</a></li>
+                                    <li><a href="fielLocker.html">File Locker</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+			<a id="current-account" class="btn-account" href="#">Account: </a>
+            <a class="btn-getstarted" href="signIn.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+       <section id="hero" class="hero section dark-background">
+            <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg" >
+            <div class="container">
+                <div class="row gy-4 d-flex justify-content-between">
+                    <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h2>File Locker </h2>
+                        <p>Secure your document using blockchain </p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Content Section -->
+        <section id="featured-services" class="featured-services section">
+            <div class="container">
+                <div class="row gy-4">
+				<!-- Locked Documents Table -->
+                    <div class="col-lg-12">
+                        <section id="locked-documents" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Locked Documents</h2>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Document ID</th>
+										<th scope="col">Document Name</th>
+                                        <th scope="col">IPFS Hash</th>
+                                        <th scope="col">Unlock Time</th>
+                                        <th scope="col">Recipients</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lockedDocumentsTable"></tbody>
+                            </table>
+                        </section>
+                    </div>
+                    <!-- Lock Document Section -->
+                    <div class="col-lg-12 mb-4">
+                        <section id="lock-document" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Lock Document</h2>
+                            <form id="lockDocumentForm">
+                                <div class="mb-3">
+                                    <label for="fileInput" class="form-label">Select File:</label>
+                                    <input type="file" id="fileInput" name="file" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="unlockTime" class="form-label">Lock Until (Date & Time):</label>
+                                    <input type="datetime-local" id="unlockTime" name="unlockTime" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipients" class="form-label">Recipients (Comma Separated Ethereum Addresses):</label>
+                                    <input type="text" id="recipients" name="recipients" class="form-control" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="lockDocument()">Lock Document</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    <!-- Unlock Document Section -->
+                    <div class="col-lg-12 mb-4">
+                        <section id="unlock-document" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Unlock Document</h2>
+                            <form id="unlockDocumentForm">
+                                <div class="mb-3">
+                                    <label for="unlockDocumentId" class="form-label">Document ID:</label>
+                                    <input type="number" id="unlockDocumentId" name="unlockDocumentId" class="form-control" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="unlockDocument()">Unlock Document</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    <!-- Modify Time Lock Section -->
+                    <div class="col-lg-12 mb-4">
+                        <section id="modify-timelock" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Modify Time Lock</h2>
+                            <form id="modifyTimeLockForm">
+                                <div class="mb-3">
+                                    <label for="modifyDocumentId" class="form-label">Document ID:</label>
+                                    <input type="number" id="modifyDocumentId" name="modifyDocumentId" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="modifyUnlockTime" class="form-label">New Unlock Date & Time:</label>
+                                    <input type="datetime-local" id="modifyUnlockTime" name="modifyUnlockTime" class="form-control" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="modifyTimeLock()">Modify Time Lock</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    <!-- Update Recipients Section -->
+                    <div class="col-lg-12 mb-4">
+                        <section id="update-recipients" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Update Recipients</h2>
+                            <form id="updateRecipientsForm">
+                                <div class="mb-3">
+                                    <label for="updateRecipientsDocumentId" class="form-label">Document ID:</label>
+                                    <input type="number" id="updateRecipientsDocumentId" name="updateRecipientsDocumentId" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="newRecipients" class="form-label">New Recipients (Comma Separated Ethereum Addresses):</label>
+                                    <input type="text" id="newRecipients" name="newRecipients" class="form-control" required>
+                                </div>
+                                <button type="button" class="btn btn-primary" onclick="updateRecipients()">Update Recipients</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    <!-- Cancel Document Section -->
+                    <div class="col-lg-12 mb-4">
+                        <section id="cancel-document" class="p-4 border rounded shadow-sm">
+                            <h2 class="mb-4">Cancel Document</h2>
+                            <form id="cancelDocumentForm">
+                                <div class="mb-3">
+                                    <label for="cancelDocumentId" class="form-label">Document ID:</label>
+                                    <input type="number" id="cancelDocumentId" name="cancelDocumentId" class="form-control" required>
+                                </div> 
+                                <button type="button" class="btn btn-danger" onclick="cancelDocument()">Cancel Document</button>
+                            </form>
+                        </section>
+                    </div>
+
+                    
+                </div>
+            </div>
+        </section><!-- /Content Section -->
+
+        <!-- Scripts -->
+        <script>
+    const JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiI4MTk1ZmJkZC01ZTIwLTQ4MjItODc2OS01YmJhNjcxZGU0NGYiLCJlbWFpbCI6InlhcGhjLXdtMjFAc3R1ZGVudC50YXJjLmVkdS5teSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwaW5fcG9saWN5Ijp7InJlZ2lvbnMiOlt7ImlkIjoiRlJBMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfSx7ImlkIjoiTllDMSIsImRlc2lyZWRSZXBsaWNhdGlvbkNvdW50IjoxfV0sInZlcnNpb24iOjF9LCJtZmFfZW5hYmxlZCI6ZmFsc2UsInN0YXR1cyI6IkFDVElWRSJ9LCJhdXRoZW50aWNhdGlvblR5cGUiOiJzY29wZWRLZXkiLCJzY29wZWRLZXlLZXkiOiI4NTkyYzQwODY3Yjg0MDVmMGE2ZCIsInNjb3BlZEtleVNlY3JldCI6Ijk4NGFjNmNkZDI3MGFlMTgzYTdjYWEyNDlmMmJmNWFlYzFjOTBhMTgxMWYyMDI5YTUxOTY0MjE1YzQ0NzRjZDIiLCJpYXQiOjE3MjQ4NTEzMjR9.9iucArw2qTJuvwBogkARK13jy_Y-BfKW7m3nt6kMCxw';
+
+            async function uploadToPinata(file) {
+                const url = 'https://api.pinata.cloud/pinning/pinFileToIPFS';
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${JWT}`
+                        },
+                        body: formData
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Failed to upload file to IPFS');
+                    }
+
+                    const data = await response.json();
+                    console.log('IPFS hash:', data.IpfsHash);
+                    return data.IpfsHash;
+                } catch (error) {
+                    console.error('Error during IPFS upload:', error);
+                    return null;
+                }
+            }
+
+              async function loadWeb3() {
+  if (window.ethereum) {
+    window.web3 = new Web3(window.ethereum);
+    try {
+      await window.ethereum.enable(); // Request account access
+      const accounts = await web3.eth.getAccounts(); // Get current account
+      if (accounts.length > 0) {
+        document.getElementById('current-account').textContent = `Account: ${accounts[0]}`; // Set the account address in the top-right corner
+      }
+    } catch (error) {
+      console.error("User denied account access");
+    }
+  } else if (window.web3) {
+    window.web3 = new Web3(window.web3.currentProvider);
+  } else {
+    alert("Non-Ethereum browser detected. Please consider using MetaMask.");
+  }
+}
+
+            async function loadContract() {
+                try {
+                    const response = await fetch('/contracts/TimeVault.json');
+                    const TimeVaultArtifact = await response.json();
+                    const networkId = await web3.eth.net.getId();
+                    const deployedNetwork = TimeVaultArtifact.networks[networkId];
+                    window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+                    console.log('Contract loaded:', window.contract);
+                } catch (error) {
+                    console.error('Failed to load contract', error);
+                }
+            }
+
+            async function load() {
+                await loadWeb3();
+                await loadContract();
+                const accounts = await web3.eth.getAccounts();
+                window.account = accounts[0];
+                console.log('Connected account:', window.account);
+
+                // Fetch the documents directly from the blockchain
+                getLockedDocuments();
+            }
+			
+			    function convertToEpoch(dateString) {
+        return Math.floor(new Date(dateString).getTime() / 1000);
+    }
+
+ async function getLockedDocuments() {
+    try {
+        const totalDocuments = await window.contract.methods.getDocumentCount().call();
+        const requiredApprovals = await window.contract.methods.requiredApprovals().call();
+
+        for (let documentId = 1; documentId <= Number(totalDocuments); documentId++) {
+            const documentDetails = await window.contract.methods.getDocument(documentId).call();
+
+            const ipfsHash = documentDetails[0];
+            const unlockTime = Number(documentDetails[1]);
+            const recipients = documentDetails[2];
+            const status = parseInt(documentDetails[3]);
+            const approvalCount = Number(documentDetails[4]);
+			const name = documentDetails[5]; // New field
+
+            // Check if the current account is a recipient of this document
+            if (recipients.includes(window.account)) {
+                const currentTime = Math.floor(Date.now() / 1000);
+                const unlockTimeFormatted = new Date(unlockTime * 1000).toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+
+                let statusText = "Unknown";
+                if (status === 0) {
+                    statusText = "Queued";
+                } else if (status === 1) {
+                    statusText = "Locked";
+                } else if (status === 2) {
+                    statusText = "Unlocked";
+                } else if (status === 3) {
+                    statusText = "Cancelled";
+                }
+
+                addDocumentToTable(documentId, ipfsHash, unlockTimeFormatted, recipients, statusText, name);
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching locked documents:', error.message);
+    }
+}
+
+
+
+
+            function addDocumentToTable(documentId, ipfsHash, unlockTime, recipients, status,name) {
+                const table = document.getElementById('lockedDocumentsTable');
+                const row = table.insertRow();
+                row.insertCell(0).innerText = documentId;
+				row.insertCell(1).innerText = name;
+                row.insertCell(2).innerText = ipfsHash;
+                row.insertCell(3).innerText = unlockTime;
+                row.insertCell(4).innerText = Array.isArray(recipients) ? recipients.join(', ') : 'Invalid Recipients';
+                row.insertCell(5).innerText = status;
+            }
+			
+			function updateUnlockTimeInTable(documentId, newUnlockTime) {
+        const table = document.getElementById('lockedDocumentsTable');
+        for (let i = 0; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerText == documentId) {
+                table.rows[i].cells[2].innerText = newUnlockTime;
+                break;
+            }
+        }
+    }
+	
+	 function updateRecipientsInTable(documentId, newRecipients) {
+        const table = document.getElementById('lockedDocumentsTable');
+        for (let i = 0; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerText == documentId) {
+                table.rows[i].cells[3].innerText = newRecipients.join(', ');
+                break;
+            }
+        }
+    }
+
+            async function lockDocument() {
+    try {
+        const fileInput = document.getElementById('fileInput');
+        const file = fileInput.files[0];
+        if (!file) {
+            throw new Error('No file selected');
+        }
+
+        const fileName = file.name;
+        const ipfsHash = await uploadToPinata(file);
+        if (!ipfsHash) {
+            throw new Error('Failed to upload file to IPFS');
+        }
+
+        const unlockDateTime = document.getElementById('unlockTime').value;
+        const unlockTime = convertToEpoch(unlockDateTime);
+        const recipients = document.getElementById('recipients').value.split(',').map(address => address.trim());
+        const name = fileName;
+
+        console.log({ ipfsHash, unlockTime, recipients, name }); // Debugging line
+
+        const receipt = await window.contract.methods.lockDocument(ipfsHash, unlockTime, recipients, name).send({
+            from: window.account,
+            gas: 3000000
+        });
+
+        console.log('Document queued for locking.');
+        const documentId = receipt.events.DocumentLocked.returnValues.documentId;
+        addDocumentToTable(documentId, ipfsHash, unlockDateTime, recipients, "Queued", name);
+    } catch (error) {
+        console.error('Error locking document:', error.message);
+        alert('Error locking document: ' + error.message);
+    }
+}
+
+
+			
+			function updateUnlockTimeInTable(documentId, newUnlockTime) {
+        const table = document.getElementById('lockedDocumentsTable');
+        for (let i = 0; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerText == documentId) {
+                table.rows[i].cells[2].innerText = newUnlockTime;
+                break;
+            }
+        }
+    }
+
+    function updateRecipientsInTable(documentId, newRecipients) {
+        const table = document.getElementById('lockedDocumentsTable');
+        for (let i = 0; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerText == documentId) {
+                table.rows[i].cells[3].innerText = newRecipients.join(', ');
+                break;
+            }
+        }
+    }
+
+    async function cancelDocument() {
+        const documentId = document.getElementById('cancelDocumentId').value;
+
+        if (!documentId || isNaN(documentId)) {
+            alert('Please enter a valid document ID');
+            return;
+        }
+
+        try {
+            await window.contract.methods.cancelDocument(documentId).send({ from: window.account });
+            console.log('Document canceled successfully.');
+            alert('Document canceled successfully.');
+            updateDocumentStatusInTable(documentId, 'Cancelled');
+        } catch (error) {
+            console.error('Error canceling document:', error);
+            alert('Error canceling document: ' + error.message);
+        }
+    }
+
+    function updateDocumentStatusInTable(documentId, newStatus) {
+        const table = document.getElementById('lockedDocumentsTable');
+        for (let i = 0; i < table.rows.length; i++) {
+            if (table.rows[i].cells[0].innerText == documentId) {
+                table.rows[i].cells[4].innerText = newStatus; // Update the status column
+                break;
+            }
+        }
+    }
+
+    async function unlockDocument() {
+        const documentId = document.getElementById('unlockDocumentId').value;
+
+        if (!documentId || isNaN(documentId)) {
+            alert('Please enter a valid document ID');
+            return;
+        }
+
+        try {
+            const documentDetails = await window.contract.methods.getDocument(documentId).call();
+            const unlockTime = documentDetails.unlockTime;
+            const currentTime = Math.floor(Date.now() / 1000);
+
+            if (currentTime < unlockTime) {
+                alert('Document is still locked. Unlock time has not been reached.');
+                return;
+            }
+
+            const receipt = await window.contract.methods.unlockDocument(documentId).send({ from: window.account });
+            const ipfsHash = documentDetails.ipfsHash;
+            const ipfsLink = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
+
+            window.open(ipfsLink, '_blank');
+            updateDocumentStatusInTable(documentId, 'Unlocked');
+        } catch (error) {
+            console.error('Error unlocking document:', error);
+            alert('Error unlocking document: ' + error.message);
+        }
+    }
+
+    async function modifyTimeLock() {
+        const documentId = document.getElementById('modifyDocumentId').value;
+        const newUnlockDateTime = document.getElementById('modifyUnlockTime').value;
+        const newUnlockTime = convertToEpoch(newUnlockDateTime);
+
+        try {
+            await window.contract.methods.modifyTimeLock(documentId, newUnlockTime).send({ from: window.account });
+            console.log('TimeLock modified successfully.');
+            alert('TimeLock modified successfully.');
+            updateUnlockTimeInTable(documentId, newUnlockDateTime);
+        } catch (error) {
+            console.error('Error modifying TimeLock:', error);
+            alert('Error modifying TimeLock: ' + error.message);
+        }
+    }
+
+    async function updateRecipients() {
+        const documentId = document.getElementById('updateRecipientsDocumentId').value;
+        const newRecipients = document.getElementById('newRecipients').value.split(',').map(address => address.trim());
+
+        try {
+            await window.contract.methods.updateRecipients(documentId, newRecipients).send({ from: window.account });
+            console.log('Recipients updated successfully.');
+            alert('Recipients updated successfully.');
+            updateRecipientsInTable(documentId, newRecipients);
+        } catch (error) {
+            console.error('Error updating recipients:', error);
+            alert('Error updating recipients: ' + error.message);
+        }
+    }
+    
+	
+
+            window.onload = function() {
+                load();
+            };
+        </script>
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <!-- Footer content here -->
+    </footer>
+
+    <!-- Vendor JS Files -->
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

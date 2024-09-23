@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Blockchain Demo</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+.card {
+    width: 110%; /* Ensure the card takes full width */
+    max-width: 100%; /* Set a maximum width for larger screens */
+    margin: 0 auto; /* Centers the card horizontally */
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+.card-body {
+    padding: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto; /* Enables horizontal scrolling on smaller screens */
+}
+
+.table {
+    width: 100%;
+    min-width: 600px; /* Ensures the table doesn’t collapse on small screens */
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+
+
+th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    word-break: break-word; /* Prevents long text from overflowing */
+}
+
+th {
+    background-color: #f4f4f4;
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%; /* Ensure the card takes full width on smaller screens */
+    }
+
+    th, td {
+        padding: 8px; /* Adjust padding for smaller screens */
+    }
+}
+
+  .fixed-img {
+    width: 100%; /* Make the image responsive */
+    height: 250px; /* Set a fixed height for uniformity */
+    object-fit: cover; /* Ensures the image is cropped to fit within the given dimensions */
+  }
+</style>
+
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="home.php" class="logo d-flex align-items-center me-auto">
+          <h1 class="sitename">Blockchain Demo</h1>
+      </a>
+  
+      <nav id="navmenu" class="navmenu">
+          <ul>
+              <li><a href="home.html" class="active">Home<br></a></li>
+              <li><a href="about.html">About</a></li>
+              </li>
+          </ul>
+          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+  
+      <a class="btn-getstarted" href="signIn.html">Sign In</a>
+  </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg" data-aos="fade-in">
+
+        <div class="container">
+        <div class="row gy-4 d-flex justify-content-between">
+          <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+            <h2 data-aos="fade-up">Secure Vault Blockchain Platform</h2>
+            <p data-aos="fade-up" data-aos-delay="100">Secure Your Document At First Place</p>
+          </div>
+
+          <div class="col-lg-5 order-1 order-lg-2 hero-img" data-aos="zoom-out">
+            <img src="assets/img/hero-img.svg" class="img-fluid mb-3 mb-lg-0" alt="">
+          </div>
+
+        </div>
+      </div>
+
+    </section><!-- /Hero Section -->
+
+    <!-- Head Section -->
+    <section id="featured-services" class="featured-services section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-cart-flatbed"></i></div>
+            <div>
+              <h4 class="title">Coin Price</h4>
+              <p class="description">100000USD</p>
+              <a href="#" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+          <!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-truck"></i></div>
+            <div>
+              <h4 class="title">Transactions</h4>
+              <p class="description">2,486.25 M (10.1 TPS)</p>
+              <a href="#" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
+            <div class="icon flex-shrink-0"><i class="fa-solid fa-truck-ramp-box"></i></div>
+            <div>
+              <h4 class="title">Blocks</h4>
+              <p class="description">20603083</p>
+              <a href="#" class="readmore stretched-link"><span>Learn More</span><i class="bi bi-arrow-right"></i></a>
+            </div>
+          </div><!-- End Service Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Head Section -->
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-6 position-relative align-self-start order-lg-last order-first" data-aos="fade-up" data-aos-delay="200">
+            <img src="assets/img/about.jpg" class="img-fluid" alt="">
+            <a href="https://www.youtube.com/watch?v=qOVAbKKSH10&embeds_referring_euri=https%3A%2F%2Fwww.bing.com%2F&embeds_referring_origin=https%3A%2F%2Fwww.bing.com&source_ve_path=Mjg2NjY" class="glightbox pulsating-play-btn"></a>
+          </div>
+
+         <div class="col-lg-6 content order-last  order-lg-first" data-aos="fade-up" data-aos-delay="100">
+            <h3>About Us</h3>
+            <p>
+              Our Mission Is To Secure Your Document Savely Wihout Others Interfere
+            </p>
+            <ul>
+              <li>
+                <i class="bi bi-diagram-3"></i>
+                <div>
+                  <h5>Mission</h5>
+                  <p>To provide good service for securing your document </p>
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-fullscreen-exit"></i>
+                <div>
+                  <h5>Aims</h5>
+                  <p>To protect your document </p>
+                </div>
+              </li>
+              <li>
+                <i class="bi bi-broadcast"></i>
+                <div>
+                  <h5>Trust</h5>
+                  <p>We are using etheruem as a platform to secure your document</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->
+
+<!-- Benefits Section -->
+<section id="services" class="services section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <span>Key Advantages<br></span>
+    <h2>Our Benefits</h2>
+    <p>Explore the core benefits that make our blockchain platform a secure, transparent, and innovative solution for your needs.</p>
+  </div><!-- End Section Title -->
+
+  <div class="container">
+
+    <div class="row gy-4">
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+        <div class="card">
+          <div class="card-img">
+            <img src="assets/img/service-1.jpg" alt="Security Feature" class="img-fluid fixed-img">
+          </div>
+          <h3>Enhanced Security</h3>
+          <p>Our platform ensures top-notch security through advanced encryption, safeguarding your transactions and data.</p>
+        </div>
+      </div><!-- End Card Item -->
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+        <div class="card">
+          <div class="card-img">
+            <img src="assets/img/service-2.jpg" alt="Transparency Feature" class="img-fluid fixed-img">
+          </div>
+          <h3>Transparency</h3>
+          <p>Blockchain's immutable ledger provides complete transparency, enabling you to track every transaction effortlessly.</p>
+        </div>
+      </div><!-- End Card Item -->
+
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+        <div class="card">
+          <div class="card-img">
+            <img src="assets/img/service-3.jpg" alt="Efficiency Feature" class="img-fluid fixed-img">
+          </div>
+          <h3>Efficiency</h3>
+          <p>Our system accelerates transaction speeds, cutting out intermediaries, reducing costs, and increasing operational efficiency.</p>
+        </div>
+      </div><!-- End Card Item -->
+
+    </div>
+  </div>
+</section><!-- /Benefits Section -->
+
+
+    <!-- Transaction Section -->
+    <section id="call-to-action" class="call-to-action section dark-background">
+
+      <img src="assets/img/cta-bg.jpg" alt="">
+
+      <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+          <div class="col-xl-10">
+            <div class="text-center">
+              <h3>Transactions</h3>
+              <p>Transactions 1</p>
+              <a class="cta-btn" href="#">GO TO TRANSACTIONS PAGE</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Transaction Section -->
+
+    <!-- Transaction List Section -->
+    <section id="features" class="features section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <span>History</span>
+        <h2>History</h2>
+        <p>Lastest History</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+        <div class="row gy-4 align-items-center features-item">
+          <div class="col-md-12" data-aos="zoom-out" data-aos-delay="100">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Transaction History</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+			  <div class="table-responsive"> <!-- Add table-responsive class for responsive scrolling -->
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>IPFS Hash</th>
+                      <th>Recipient</th>
+                      <th>Unlock Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                    <tbody id="transaction-history"> <!-- Add the ID here -->
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      </div>
+
+    </section><!-- /Transaction List Section -->
+
+
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+          <div class="col-lg-5 col-md-12 footer-about">
+              <a href="index.html" class="logo d-flex align-items-center">
+                  <span class="sitename">BlockChain</span>
+              </a>
+              <p>BlockChain.</p>
+              <div class="social-links d-flex mt-4">
+                  <a href=""><i class="bi bi-twitter-x"></i></a>
+                  <a href=""><i class="bi bi-facebook"></i></a>
+                  <a href=""><i class="bi bi-instagram"></i></a>
+                  <a href=""><i class="bi bi-linkedin"></i></a>
+              </div>
+          </div>
+  
+          <div class="col-lg-2 col-6 footer-links">
+              <h4>Useful Links</h4>
+              <ul>
+                  <li><a href="#">Home</a></li>
+                  <li><a href="#">About us</a></li>
+                  <li><a href="#">Terms of service</a></li>
+                  <li><a href="#">Privacy policy</a></li>
+              </ul>
+          </div>
+  
+          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+              <h4>Contact Us</h4>
+               <p>#info@gmailtimevault.com</p>
+              <p>#0123456789</p>
+              <p>#Time Vault</p>
+              <p class="mt-4"><strong>Phone:</strong> <span>0312341234</span></p>
+              <p><strong>Email:</strong> <span>#@example.com</span></p>
+          </div>
+  
+      </div>
+  </div>
+  
+  <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">BlockChain</strong> <span>All Rights Reserved</span></p>
+      <div class="credits">
+          Designed by <a href="#">BlockChain</a>
+      </div>
+  </div>
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+  <script>
+    // Initialize Web3 and load the smart contract
+    async function loadWeb3() {
+      if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        try {
+          await window.ethereum.enable(); // Request account access
+        } catch (error) {
+          console.error("User denied account access");
+        }
+      } else if (window.web3) {
+        window.web3 = new Web3(window.web3.currentProvider);
+      } else {
+        alert("Non-Ethereum browser detected. Please consider using MetaMask.");
+      }
+    }
+
+    async function loadContract() {
+      try {
+        const response = await fetch('/contracts/TimeVault.json'); // Path to your contract ABI
+        const contractData = await response.json();
+        const networkId = await web3.eth.net.getId();
+        const deployedNetwork = contractData.networks[networkId];
+        const contract = new web3.eth.Contract(
+          contractData.abi,
+          deployedNetwork && deployedNetwork.address
+        );
+        return contract;
+      } catch (error) {
+        console.error("Error loading contract:", error);
+      }
+    }
+
+  // Map status code to text and CSS class
+function getStatusText(statusCode) {
+  const numericStatus = Number(statusCode);  // Convert to number
+  switch (numericStatus) {
+    case 0: return { text: "Queued", cssClass: "status-queued" };
+    case 1: return { text: "Locked", cssClass: "status-locked" };
+    case 2: return { text: "Unlocked", cssClass: "status-unlocked" };
+    case 3: return { text: "Cancelled", cssClass: "status-cancelled" };
+    default: return { text: "Unknown", cssClass: "" };
+  }
+}
+
+
+ // Load transaction history
+async function loadTransactionHistory() {
+  const contract = await loadContract();
+  const accounts = await web3.eth.getAccounts();
+  const userAddress = accounts[0];
+
+  // Fetch the total number of documents
+  const documentCount = await contract.methods.getDocumentCount().call({ from: userAddress });
+  let tableBody = document.getElementById("transaction-history");
+  tableBody.innerHTML = ''; // Clear the table before populating
+
+  for (let i = 1; i <= documentCount; i++) {
+    try {
+      // Get document details by ID
+      const doc = await contract.methods.getDocument(i).call({ from: userAddress });
+
+      // Convert BigInt to Number for timestamp
+      const unlockTime = new Date(Number(doc.unlockTime) * 1000); // Convert Unix timestamp to date
+
+      // Map status code to text and class
+      const { text: statusText, cssClass } = getStatusText(doc.status);
+
+      // Create a new row with the transaction data
+      const newRow = `
+        <tr>
+          <td>${doc.ipfsHash}</td>
+          <td>${doc.recipients.join(', ')}</td>
+          <td>${unlockTime.toLocaleString()}</td>
+          <td class="${cssClass}">${statusText}</td>
+        </tr>
+      `;
+      tableBody.innerHTML += newRow; // Append the new row to the table
+    } catch (error) {
+      console.error(`Error loading transaction with ID ${i}:`, error);
+    }
+  }
+}
+
+    // Call the functions when the page loads
+    window.addEventListener('load', async () => {
+      await loadWeb3();
+      await loadTransactionHistory();
+    });
+  </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Blockchain Demo - Document Approval</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/fileLock.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<style>
+	.table {
+        width: 100%; /* Ensures the table uses the full width of its container */
+        border-collapse: collapse; /* Collapses borders for cleaner look */
+    }
+    .table-responsive {
+        width: 110%; /* Ensures the table uses the full width of its container */
+        overflow-x: auto; /* Adds horizontal scroll if needed */
+    }
+
+    .table th, .table td {
+        text-align: left; /* Aligns text to the left */
+        padding: 0.5rem; /* Reduces padding for better fit */
+        font-size: 0.875rem; /* Reduces font size */
+        white-space: normal; /* Allows text to wrap */
+        word-wrap: break-word; /* Breaks long words to fit within the cell */
+    }
+	</style>
+</head>
+
+<body class="index-page">
+
+    <header id="header" class="header d-flex align-items-center fixed-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+            <a href="home.php" class="logo d-flex align-items-center me-auto">
+                <h1 class="sitename">Blockchain Demo</h1>
+            </a>
+            <nav id="navmenu" class="navmenu">
+                <ul>
+                    <li><a href="home.html">Home</a></li>
+                    <li class="dropdown"><a href="#"><span>Blockchain</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="assignadmin.html">Assign Admin</a></li>
+                            <li><a href="adminpage.html">Approve transaction</a></li>
+							<li><a href="approveTransactionAdmin.html">Approve transaction List</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+            </nav>
+            <a class="btn-getstarted" href="signIn.html">Log Out</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Hero Section -->
+        <section id="hero" class="hero section dark-background">
+            <img src="assets/img/world-dotted-map.png" alt="" class="hero-bg">
+            <div class="container">
+                <div class="row gy-4 d-flex justify-content-between">
+                    <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                        <h2>Document Approval</h2>
+                        <p>Approve documents securely using blockchain technology.</p>
+                    </div>
+                </div>
+            </div>
+        </section><!-- /Hero Section -->
+
+        <!-- Approval Section -->
+        <section id="approval-section" class="p-4">
+            <div class="container">
+                <h2 class="mb-4">Pending Documents for Approval</h2>
+                <p>Required Admin Approvals : <span id="requiredApprovals">Loading...</span></p>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Document ID</th>
+                            <th scope="col">IPFS Hash</th>
+                            <th scope="col">Unlock Time</th>
+                            <th scope="col">Recipients</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="approvalTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Scripts -->
+        <script>
+            let existingDocumentIds = new Set(); // Set to keep track of existing document IDs
+
+            async function loadWeb3() {
+                if (window.ethereum) {
+                    window.web3 = new Web3(window.ethereum);
+                    try {
+                        await window.ethereum.request({ method: 'eth_requestAccounts' });
+                        console.log('Web3 loaded and accounts accessed');
+                    } catch (error) {
+                        console.error('User denied account access or error:', error);
+                    }
+                } else {
+                    console.error('Non-Ethereum browser detected. You should consider trying MetaMask!');
+                }
+            }
+
+            async function loadContract() {
+                try {
+                    const response = await fetch('/contracts/TimeVault.json');
+                    const TimeVaultArtifact = await response.json();
+                    const networkId = await web3.eth.net.getId();
+                    const deployedNetwork = TimeVaultArtifact.networks[networkId];
+                    window.contract = new web3.eth.Contract(TimeVaultArtifact.abi, deployedNetwork.address);
+                    console.log('Contract loaded:', window.contract);
+                } catch (error) {
+                    console.error('Failed to load contract', error);
+                }
+            }
+
+            async function load() {
+                await loadWeb3();
+                await loadContract();
+                const accounts = await web3.eth.getAccounts();
+                window.account = accounts[0];
+                console.log('Connected account:', window.account);
+
+                // Fetch required approvals and pending documents
+                getRequiredApprovals();
+            }
+
+            async function getRequiredApprovals() {
+                try {
+                    const requiredApprovals = await window.contract.methods.requiredApprovals().call();
+                    console.log("Required Approvals from contract:", requiredApprovals);
+                    document.getElementById('requiredApprovals').innerText = requiredApprovals;
+
+                    const pendingDocumentIds = await getDocumentsNeedingApproval(requiredApprovals);
+                    console.log(`Documents requiring approval: ${pendingDocumentIds.length}`);
+                } catch (error) {
+                    console.error('Error fetching required approvals:', error);
+                    document.getElementById('requiredApprovals').innerText = 'Error';
+                }
+            }
+
+            async function getDocumentsNeedingApproval(requiredApprovals) {
+                try {
+                    const totalDocuments = await window.contract.methods.getDocumentCount().call();
+                    const pendingDocuments = [];
+
+                    for (let documentId = 1; documentId <= Number(totalDocuments); documentId++) {
+                        const documentDetails = await window.contract.methods.getDocument(documentId).call();
+                        const status = parseInt(documentDetails[3]);
+
+                        if (status === 0) { // Assuming 0 means "Queued"
+                            pendingDocuments.push(documentId);
+                        }
+                    }
+
+                    // Show only the required number of pending documents
+                    if (pendingDocuments.length > requiredApprovals) {
+                        pendingDocuments.length = requiredApprovals; // Limit to the number of required approvals
+                    }
+
+                    // Display the pending documents
+                    displayPendingDocuments(pendingDocuments);
+
+                    return pendingDocuments;
+                } catch (error) {
+                    console.error('Error fetching documents needing approval:', error);
+                }
+            }
+
+            async function displayPendingDocuments(documentIds) {
+                try {
+                    const table = document.getElementById('approvalTable');
+                    table.innerHTML = ''; // Clear previous rows
+
+                    for (const documentId of documentIds) {
+                        const documentDetails = await window.contract.methods.getDocument(documentId).call();
+                        console.log(`Fetched details for document ${documentId}:`, documentDetails);
+
+                        const ipfsHash = documentDetails[0];
+                        const unlockTime = Number(documentDetails[1]);
+                        const recipients = documentDetails[2];
+                        const status = parseInt(documentDetails[3]);
+
+                        const unlockTimeFormatted = new Date(unlockTime * 1000).toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' });
+                        const statusText = await getDocumentStatus(documentId);
+
+                        if (!existingDocumentIds.has(documentId)) {
+                            addDocumentToApprovalTable(documentId, ipfsHash, unlockTimeFormatted, recipients, statusText, status);
+                            existingDocumentIds.add(documentId);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error displaying pending documents:', error);
+                }
+            }
+
+           function addDocumentToApprovalTable(documentId, ipfsHash, unlockTime, recipients, statusText, status) {
+    const table = document.getElementById('approvalTable');
+
+    const row = table.insertRow();
+    row.id = `document-${documentId}`; // Give each row a unique ID
+
+    row.insertCell(0).innerText = documentId;
+    row.insertCell(1).innerText = ipfsHash;
+    row.insertCell(2).innerText = unlockTime;
+    row.insertCell(3).innerText = recipients.join(', ');
+    row.insertCell(4).innerText = statusText;
+
+    const actionCell = row.insertCell(5);
+
+    if (status === 0) { // If status is "Queued"
+        // Create a div to hold the buttons
+        const buttonContainer = document.createElement('div');
+        buttonContainer.className = 'd-flex'; // Flexbox container for buttons
+        buttonContainer.style.gap = '10px'; // Add space between the buttons
+
+        // Approve button
+        const approveButton = document.createElement('button');
+        approveButton.className = 'btn btn-success'; // Inline display and margin
+        approveButton.innerText = 'Approve';
+        approveButton.onclick = function () { approveDocument(documentId); };
+        buttonContainer.appendChild(approveButton);
+
+        // Reject button
+        const rejectButton = document.createElement('button');
+        rejectButton.className = 'btn btn-danger'; // Inline display
+        rejectButton.innerText = 'Reject';
+        rejectButton.onclick = function () { rejectDocument(documentId); };
+        buttonContainer.appendChild(rejectButton);
+
+        // View button
+        const viewButton = document.createElement('button');
+        viewButton.className = 'btn btn-primary'; // Inline display
+        viewButton.innerText = 'View';
+        viewButton.onclick = function () { viewDocument(documentId); };
+        buttonContainer.appendChild(viewButton);
+
+        actionCell.appendChild(buttonContainer);
+    } else {
+        actionCell.innerText = "No Action Required";
+    }
+}
+
+
+
+async function rejectDocument(documentId) {
+    try {
+        console.log(`Rejecting document ${documentId}...`);
+        const receipt = await window.contract.methods.rejectDocument(documentId).send({ from: window.account });
+        console.log('Document rejected:', receipt);
+
+        setTimeout(async () => {
+            // Fetch the updated status after rejection
+            await getRequiredApprovals();
+        }, 3000); // Adjust the delay as needed
+    } catch (error) {
+        console.error('Error rejecting document:', error);
+        alert('Error rejecting document: ' + error.message);
+    }
+}
+
+
+            async function getDocumentStatus(documentId) {
+                try {
+                    const status = await window.contract.methods.getDocumentStatus(documentId).call();
+                    console.log(`Fetched status for document ${documentId}:`, status);
+
+                    const statusInt = parseInt(status);
+                    const statusMapping = ["Queued", "Locked", "Unlocked", "Cancelled"];
+                    const statusText = statusMapping[statusInt] || "Unknown";
+
+                    console.log(`Mapped status for document ${documentId}: ${statusText}`);
+                    return statusText;
+                } catch (error) {
+                    console.error('Error fetching document status:', error);
+                    return "Error";
+                }
+            }
+			
+			async function viewDocument(documentId) {
+    if (!documentId || isNaN(documentId)) {
+        alert('Please enter a valid document ID');
+        return;
+    }
+
+    try {
+        // Fetch document details
+        const documentDetails = await window.contract.methods.getDocument(documentId).call();
+        const ipfsHash = documentDetails[0]; // Assuming IPFS hash is the first element
+
+        // Construct IPFS link
+        const ipfsLink = `https://gateway.pinata.cloud/ipfs/${ipfsHash}`;
+
+        // Open the document in a new tab
+        window.open(ipfsLink, '_blank');
+    } catch (error) {
+        console.error('Error viewing document:', error);
+        alert('Error viewing document: ' + error.message);
+    }
+}
+
+
+
+            async function approveDocument(documentId) {
+                try {
+                    console.log(`Approving document ${documentId}...`);
+                    const receipt = await window.contract.methods.approveDocument(documentId).send({ from: window.account });
+                    console.log('Document approved:', receipt);
+
+                    setTimeout(async () => {
+                        // Fetch the updated status
+                        await getRequiredApprovals();
+                    }, 3000); // Adjust the delay as needed (e.g., 3 seconds)
+                } catch (error) {
+                    console.error('Error approving document:', error);
+                    alert('Error approving document: ' + error.message);
+                }
+            }
+
+            window.onload = function () {
+                load();
+            };
+        </script>
+    </main>
+
+    <footer id="footer" class="footer dark-background">
+        <!-- Footer content here -->
+    </footer>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+</body>
+
+</html>
